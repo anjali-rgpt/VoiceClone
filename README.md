@@ -9,3 +9,8 @@ and before this, if you have homebrew, brew install mecab - better for newer Mac
 1. pip install torch torchaudio -f https://download.pytorch.org/whl/cpu/torch_stable.html
 2. pip install deepfilternet
 (or) 2. pip install deepfilternet[train]
+
+1. git clone https://github.com/myshell-ai/OpenVoice.git
+2. cd OpenVoice
+3. pip install -e .
+(Note: If missing constraint.txt file, just create empty ones in that folder)
