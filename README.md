@@ -14,3 +14,7 @@ and before this, if you have homebrew, brew install mecab - better for newer Mac
 2. cd OpenVoice
 3. pip install -e .
 (Note: If missing constraint.txt file, just create empty ones in that folder)
+4. git remote -v (to check if it's connected to master repo)
+5. git remote rm origin (disconnect from main/remote repo)
+
+
