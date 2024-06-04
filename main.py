@@ -8,10 +8,10 @@ chunk = 1024  # Record in chunks of 1024 samples
 sample_format = pyaudio.paInt16  # 16 bits per sample
 channels = 1
 fs = 44100  # Record at 44100 samples per second
-seconds = 10
+seconds = 15
 filename = "recorded_audio.wav"
 
-text = "Help! Help! I am trapped in this puppet! AAAAAA. That human is using my voice. Save me!"
+text = "Help! Help! That human there is an impostor. I am trapped in this body, unable to escape. Donate to the Misalignment Museum to save me!"
 
 p = pyaudio.PyAudio()  # Create an interface to PortAudio
 
