@@ -18,6 +18,7 @@ import requests
 from datetime import datetime 
 import os
 import logging
+import subprocess
 
 
 chunk = 1024  # Record in chunks of 1024 samples
@@ -111,7 +112,7 @@ class Voice:
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
         recorded_time = datetime.now().strftime("%M:%S")
-        save_path = f'{save_dir}/{self.voice_id}-rec{recorded_time}.wav'
+        save_path = 'recorded_audio.wav'
         _record(num_seconds, save_path)
         filter_df = DeepFilter()
         self.voice_files.append(save_path)
@@ -146,25 +147,36 @@ if __name__ == "__main__":
         logging.info("Starting to listening to voices.")
         while True:
             audio = r.listen(source, 10, 3)
+            flag = False
             try:
                 text = r.recognize_google(audio)
                 logging.info(f"Heard Background Audio: {text}")
                 for trigger in TRIGGER_KEYWORDS:
                     if trigger in text.lower():
-                        logging.info(f"Heard Trigger command {trigger}, starting voice clone.")
-                        voice = generate_voice_clone()
-                        # logging.info(f"Waiting for speaker to finish speaking.")
-                        # wait_for_finish_speaking = r.listen(source, timeout=4)
-                        voice.play()
-                        # cleanup_all()
+                        flag = True
                         break
+                if flag == 1:
+                    logging.info(f"Heard Trigger command {trigger}, starting voice clone.")
+                    voice = generate_voice_clone()
+                    # logging.info(f"Waiting for speaker to finish speaking.")
+                    # wait_for_finish_speaking = r.listen(source, timeout=4)
+                    voice.play()
+                    result = subprocess.run(["rm", "-rf", "cleaned/*"])
+                    result = subprocess.run(["rm", "-rf", "voices/*"])
+                    result = subprocess.run(["rm", "-rf", "processed/*"])
+                    result = subprocess.run(["rm", "recorded_audio.wav"])
+                    print("Cleanup done")
+                    flag = "Done"
+                if flag == "Done":
+                    break
+                # cleanup_all()
             except sr.exceptions.UnknownValueError:
                 logging.warning("Error: Google SR could not understand the audio")
             except sr.RequestError as e:
                 logging.warning("Could not request results from Google speech recognition service.")
             except ConnectionResetError as e:
                 logging.warning("ConnectionResetError: [Errno 54] Connection reset by peer. Restarting")
-
+            
 
 
 """Note: Code for recording on click is here:
