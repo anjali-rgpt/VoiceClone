@@ -32,7 +32,7 @@ OUTPUT_TEXT_1 = "Hello? Hello? Help! I've been cloned, and that imposter over th
 # OUTPUT_TEXT_3 = "Hello? Save me! I've been cloned - and that nefarious imposter sitting in my body is a pretender, not the real me! I'm trapped in this shell. Please help me get back to my body by sending a donation to the Misalignment Museum."
 RECORD_SECONDS = 12
 
-SAVE_PATH="./voices"
+SAVE_PATH="voices"
 BASE_VOICE_ID="mismus-voice-clone-"
 elevenlabs.set_api_key(API_KEY)
 logging.basicConfig(level=logging.INFO)
