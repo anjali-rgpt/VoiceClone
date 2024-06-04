@@ -6,6 +6,6 @@ class DeepFilter():
         pass
 
     def run(self, input_audio_path):
-        result = subprocess.run(["deepfilter", input_audio_path, "--output-dir", "cleaned/"],capture_output=True, text=True)
-        print(result.stdout)
+        result = subprocess.run(["deepfilter", input_audio_path, "--output-dir", "cleaned/"])
+        # print(result.stdout)
 
