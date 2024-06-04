@@ -17,4 +17,5 @@ and before this, if you have homebrew, brew install mecab - better for newer Mac
 4. git remote -v (to check if it's connected to master repo)
 5. git remote rm origin (disconnect from main/remote repo)
 
+1. pip install ipywebrtc notebook ipywidgets
 
