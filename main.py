@@ -18,7 +18,7 @@ import requests
 from datetime import datetime 
 import os
 import logging
-import subprocess
+
 
 
 chunk = 1024  # Record in chunks of 1024 samples
@@ -43,6 +43,7 @@ OUTPUT_TEXT_1 = "Hello? Hello? Help! I've been cloned, and that imposter over th
 RECORD_SECONDS = 12
 BASE_VOICE_ID="mismus-voice-clone-"
 SAVE_PATH="voices"
+filter_df = DeepFilter()
 logging.basicConfig(level=logging.INFO)
 
 
@@ -104,6 +105,7 @@ class Voice:
         self.voice_id = f"{base_voice_id}-{self.initial_time.strftime('%m%d-%H:%M')}"
         self.voice_files = []
         self.cloned_audio = None
+        
     
     def record(self, num_seconds=15):
         logging.info("Recording Voice")
@@ -112,12 +114,11 @@ class Voice:
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
         recorded_time = datetime.now().strftime("%M:%S")
-        save_path = 'recorded_audio.wav'
-        _record(num_seconds, save_path)
-        filter_df = DeepFilter()
-        self.voice_files.append(save_path)
+        self.save_path = 'recorded_audio.wav'
+        _record(num_seconds, self.save_path)
+        self.voice_files.append(self.save_path)
         logging.info("Finished Recording Voice")
-        filter_df.run(save_path)
+        filter_df.run(self.save_path)
         return self.voice_files
 
     @timeout(seconds=10, default=None)
@@ -139,14 +140,31 @@ def generate_voice_clone():
     voice.clone(generate_output_text())
     return voice
 
+def delete_files_in_directory(directory_path):
+   try:
+     files = os.listdir(directory_path)
+     for file in files:
+       file_path = os.path.join(directory_path, file)
+       if os.path.isfile(file_path):
+         os.remove(file_path)
+     print("All files deleted successfully.")
+   except OSError:
+     print("Error occurred while deleting files.")
+
 if __name__ == "__main__":
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
-
         logging.info("Starting to listening to voices.")
         while True:
-            audio = r.listen(source, 10, 3)
+            audio_rec = r.listen(source, 10, 3) # earlier this just used to be audio which got directly passed to r.recognize_google()
+            # NEW PART BEGINS
+            with open("microphone-results.wav", "wb") as f:
+                f.write(audio_rec.get_wav_data())
+            filter_df.run("microphone-results.wav", "cleaned/sr/")
+            with sr.AudioFile("cleaned/sr/microphone-results_DeepFilterNet3.wav") as source:
+                audio = r.record(source)
+            # NEW PART ENDS
             flag = False
             try:
                 text = r.recognize_google(audio)
@@ -161,10 +179,11 @@ if __name__ == "__main__":
                     # logging.info(f"Waiting for speaker to finish speaking.")
                     # wait_for_finish_speaking = r.listen(source, timeout=4)
                     voice.play()
-                    result = subprocess.run(["rm", "-rf", "cleaned/*"])
-                    result = subprocess.run(["rm", "-rf", "voices/*"])
-                    result = subprocess.run(["rm", "-rf", "processed/*"])
-                    result = subprocess.run(["rm", "recorded_audio.wav"])
+                    delete_files_in_directory('voices')
+                    delete_files_in_directory('processed')
+                    delete_files_in_directory('outputs')
+                    delete_files_in_directory('cleaned')
+                    os.remove('recorded_voice.wav')
                     print("Cleanup done")
                     flag = "Done"
                 if flag == "Done":
