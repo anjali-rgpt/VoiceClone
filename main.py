@@ -36,11 +36,11 @@ Beware the mimicry's treacherous sway,
 lest our own voices lead us astray.
 A lesson in echoes we must convey.
 """
-TRIGGER_KEYWORDS = ["abracadabra", "playful", "delight", "parrot", "swift"]
+TRIGGER_KEYWORDS = ["abracadabra", "playful", "play", "delight", "parrot", "swift", "voices", "boy"]
 OUTPUT_TEXT_1 = "Hello? Hello? Help! I've been cloned, and that imposter over there in my body is pretending to be me. I'm trapped in this puppet, unable to get back to my body. To break this spell, please send a donation to the Misalignment Museum."
 # OUTPUT_TEXT_2 = "Help! Help! Anyone there? I've been cloned by an evil imposter - that imposter sitting there in my body is now pretending to be me!!! I'm trapped in this voice, unable ot return to my body. To break this spell, please send a donation to the Misalignment Museum."
 # OUTPUT_TEXT_3 = "Hello? Save me! I've been cloned - and that nefarious imposter sitting in my body is a pretender, not the real me! I'm trapped in this shell. Please help me get back to my body by sending a donation to the Misalignment Museum."
-RECORD_SECONDS = 12
+RECORD_SECONDS = 15
 BASE_VOICE_ID="mismus-voice-clone-"
 SAVE_PATH="voices"
 filter_df = DeepFilter()
@@ -157,15 +157,25 @@ if __name__ == "__main__":
         r.adjust_for_ambient_noise(source)
         logging.info("Starting to listening to voices.")
         while True:
-            audio_rec = r.listen(source, 10, 3) # earlier this just used to be audio which got directly passed to r.recognize_google()
+            # NOTE: If we want to reduce latency, comment out line 161, uncomment line 162, and comment out all the NEW PART
+            # audio_rec = r.listen(source, 20, 20) # earlier this just used to be audio which got directly passed to r.recognize_google()
+            audio = r.listen(source, 10, 6) 
+
+            """
             # NEW PART BEGINS
-            with open("microphone-results.wav", "wb") as f:
-                f.write(audio_rec.get_wav_data())
-            filter_df.run("microphone-results.wav", "cleaned/sr/")
-            with sr.AudioFile("cleaned/sr/microphone-results_DeepFilterNet3.wav") as source:
-                audio = r.record(source)
+            try:
+                with open("microphone-results.wav", "wb") as f:
+                    f.write(audio_rec.get_wav_data())
+                filter_df.run("microphone-results.wav", "cleaned/sr/")
+                with sr.AudioFile("cleaned/sr/microphone-results_DeepFilterNet3.wav") as source:
+                    audio = r.record(source)
+            except:
+                audio = audio_rec
             # NEW PART ENDS
+            """
+
             flag = False
+
             try:
                 text = r.recognize_google(audio)
                 logging.info(f"Heard Background Audio: {text}")
@@ -183,19 +193,19 @@ if __name__ == "__main__":
                     delete_files_in_directory('processed')
                     delete_files_in_directory('outputs')
                     delete_files_in_directory('cleaned')
-                    os.remove('recorded_voice.wav')
+                    os.remove('recorded_audio.wav')
                     print("Cleanup done")
                     flag = "Done"
                 if flag == "Done":
-                    break
+                    # break
+                    pass
                 # cleanup_all()
             except sr.exceptions.UnknownValueError:
                 logging.warning("Error: Google SR could not understand the audio")
             except sr.RequestError as e:
                 logging.warning("Could not request results from Google speech recognition service.")
             except ConnectionResetError as e:
-                logging.warning("ConnectionResetError: [Errno 54] Connection reset by peer. Restarting")
-            
+                logging.warning("ConnectionResetError: [Errno 54] Connection reset by peer. Restarting") 
 
 
 """Note: Code for recording on click is here:
