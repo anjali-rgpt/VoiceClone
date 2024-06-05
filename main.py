@@ -158,21 +158,21 @@ if __name__ == "__main__":
         logging.info("Starting to listening to voices.")
         while True:
             # NOTE: If we want to reduce latency, comment out line 161, uncomment line 162, and comment out all the NEW PART
-            # audio_rec = r.listen(source, 20, 20) # earlier this just used to be audio which got directly passed to r.recognize_google()
-            audio = r.listen(source, 10, 6) 
+            audio_rec = r.listen(source, 10, 6) # earlier this just used to be audio which got directly passed to r.recognize_google()
+            # audio = r.listen(source, 10, 6) 
 
-            """
+            
             # NEW PART BEGINS
             try:
                 with open("microphone-results.wav", "wb") as f:
                     f.write(audio_rec.get_wav_data())
                 filter_df.run("microphone-results.wav", "cleaned/sr/")
-                with sr.AudioFile("cleaned/sr/microphone-results_DeepFilterNet3.wav") as source:
-                    audio = r.record(source)
+                with sr.AudioFile("cleaned/sr/microphone-results_DeepFilterNet3.wav") as s:
+                    audio = r.record(s)
             except:
                 audio = audio_rec
             # NEW PART ENDS
-            """
+            
 
             flag = False
 
