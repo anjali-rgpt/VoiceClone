@@ -19,6 +19,8 @@ Applying DeepFilterNet produced a [very clean input audio](https://drive.google.
 Having completed our experiments to determine the appropriate interventions, we compiled these steps into a pipeline to be used in the exhibit, adapting the existing exhibit's pipeline.
 We provide here an example of the pipeline as applied to the poem used in the exhibit. If we imagine that the exhibit takes place in a noisy room with many conversations, [the poem will be read with lots of background noise](https://drive.google.com/file/d/1NB8Y6c91cwBB1bi-VVjmEuq1P_a0INdY/view?usp=drive_link). This recording starts slightly after the start of the poem because Google speech recognizer listened for the start of the poem to start recording. The recorded audio is then passed into DeepFilterNet, resulting in a [cleaned input](https://drive.google.com/file/d/13RHZSijp-Daj-MeeV3WxvIGC9jlPMjWk/view?usp=drive_link) for the voice clone. This then goes through OpenVoice to be transformed into a [voice clone reading out the script urging visitors to donate to the museum](https://drive.google.com/file/d/1uf3jQE9DK9_2Y3uGaAQmW40hmICg7gY5/view?usp=drive_link).
 
+Here are two more examples of the voice clone being tested in a [quiet](https://drive.google.com/file/d/1jV75rPpf_mKAKToszsQ4Kvm5w5JcEzF6/view?usp=sharing) and a [synthetically noisy](https://drive.google.com/file/d/1WNBuxi0RkJ6UOEoiw6yWXK_sRuz8sEFg/view?usp=sharing) environment. 
+
 # Where to find everything
 The main code is run simply by the command python3 main.py
 The [main.py](main.py) file contains the entire pipeline to run the code, from continuous input streaming to noise reduction, voice cloning, and playback. 
