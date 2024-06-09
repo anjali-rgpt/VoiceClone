@@ -40,7 +40,11 @@ TRIGGER_KEYWORDS = ["abracadabra", "playful", "play", "delight", "parrot", "swif
 OUTPUT_TEXT_1 = "Hello? Hello? Help! I've been cloned, and that imposter over there in my body is pretending to be me. I'm trapped in this puppet, unable to get back to my body. To break this spell, please send a donation to the Misalignment Museum."
 # OUTPUT_TEXT_2 = "Help! Help! Anyone there? I've been cloned by an evil imposter - that imposter sitting there in my body is now pretending to be me!!! I'm trapped in this voice, unable ot return to my body. To break this spell, please send a donation to the Misalignment Museum."
 # OUTPUT_TEXT_3 = "Hello? Save me! I've been cloned - and that nefarious imposter sitting in my body is a pretender, not the real me! I'm trapped in this shell. Please help me get back to my body by sending a donation to the Misalignment Museum."
+<<<<<<< HEAD
 RECORD_SECONDS = 10
+=======
+RECORD_SECONDS = 15
+>>>>>>> 5bf3061de7907d4aa15b4c602a3abc80542a005d
 BASE_VOICE_ID="mismus-voice-clone-"
 SAVE_PATH="voices"
 filter_df = DeepFilter()
@@ -158,10 +162,17 @@ if __name__ == "__main__":
         logging.info("Starting to listening to voices.")
         while True:
             # NOTE: If we want to reduce latency, comment out line 161, uncomment line 162, and comment out all the NEW PART
+<<<<<<< HEAD
             # audio_rec = r.listen(source, 10, 6) # earlier this just used to be audio which got directly passed to r.recognize_google()
             audio = r.listen(source, 10, 6) 
 
             """
+=======
+            audio_rec = r.listen(source, 10, 6) # earlier this just used to be audio which got directly passed to r.recognize_google()
+            # audio = r.listen(source, 10, 6) 
+
+            
+>>>>>>> 5bf3061de7907d4aa15b4c602a3abc80542a005d
             # NEW PART BEGINS
             try:
                 with open("microphone-results.wav", "wb") as f:
@@ -172,7 +183,11 @@ if __name__ == "__main__":
             except:
                 audio = audio_rec
             # NEW PART ENDS
+<<<<<<< HEAD
             """
+=======
+            
+>>>>>>> 5bf3061de7907d4aa15b4c602a3abc80542a005d
 
             flag = False
 
