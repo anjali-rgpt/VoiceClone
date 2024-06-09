@@ -1,5 +1,7 @@
 Note: Use Python 3.9.13 (or any 3.9x version) for requirements to install correctly (with certificates for SSL initial install)
 
+Best practice : use a virtual environment; in this case, using venv, we created an environment for this setup.
+
 1. pip install git+https://github.com/myshell-ai/MeloTTS.git
 (Troubleshooting: use pip install --use-pep517 git+https://github.com/myshell-ai/MeloTTS.git
 and before this, if you have homebrew, brew install mecab - better for newer Mac versions)
