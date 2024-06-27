@@ -7,7 +7,7 @@ from OpenVoice.openvoice.api import BaseSpeakerTTS, ToneColorConverter
 class OpenVoiceModel:
     def __init__(self):
         self.ckpt_base = 'OpenVoice/checkpoints/base_speakers/EN'
-        self.ckpt_converter = 'OpenVoice/checkpoints/converter'
+        self.ckpt_converter = 'OpenVoice/checkpoints_v2/converter'
         self.device="cuda:0" if torch.cuda.is_available() else "cpu"
         self.output_dir = 'outputs'
 
@@ -19,7 +19,7 @@ class OpenVoiceModel:
     def load(self):
         self.base_speaker_tts.load_ckpt(f'{self.ckpt_base}/checkpoint.pth')
         self.tone_color_converter.load_ckpt(f'{self.ckpt_converter}/checkpoint.pth')
-        self.source_se = torch.load(f'{self.ckpt_base}/en_default_se.pth').to(self.device)
+        self.source_se = torch.load(f'OpenVoice/checkpoints_v2/base_speakers/ses/en-us.pth', map_location=self.device)
         os.makedirs(self.output_dir, exist_ok=True)
 
     def get_tone_color_embedding(self, reference_speaker_path):

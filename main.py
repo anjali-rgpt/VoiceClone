@@ -155,7 +155,7 @@ if __name__ == "__main__":
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
-        logging.info("Starting to listening to voices.")
+        logging.info("Starting to listen to voices.")
         while True:
             # NOTE: If we want to reduce latency, comment out line 161, uncomment line 162, and comment out all the NEW PART
             audio_rec = r.listen(source, 10, 6) # earlier this just used to be audio which got directly passed to r.recognize_google()
@@ -189,11 +189,11 @@ if __name__ == "__main__":
                     # logging.info(f"Waiting for speaker to finish speaking.")
                     # wait_for_finish_speaking = r.listen(source, timeout=4)
                     voice.play()
-                    delete_files_in_directory('voices')
-                    delete_files_in_directory('processed')
-                    delete_files_in_directory('outputs')
-                    delete_files_in_directory('cleaned')
-                    os.remove('recorded_audio.wav')
+                    #delete_files_in_directory('voices')
+                    #delete_files_in_directory('processed')
+                    #delete_files_in_directory('outputs')
+                    #delete_files_in_directory('cleaned')
+                    #os.remove('recorded_audio.wav')
                     print("Cleanup done")
                     flag = "Done"
                 if flag == "Done":
