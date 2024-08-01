@@ -186,14 +186,14 @@ if __name__ == "__main__":
                 if flag == 1:
                     logging.info(f"Heard Trigger command {trigger}, starting voice clone.")
                     voice = generate_voice_clone()
-                    # logging.info(f"Waiting for speaker to finish speaking.")
-                    # wait_for_finish_speaking = r.listen(source, timeout=4)
+                    #logging.info(f"Waiting for speaker to finish speaking.")
+                    #wait_for_finish_speaking = r.listen(source, timeout=4)
                     voice.play()
-                    #delete_files_in_directory('voices')
-                    #delete_files_in_directory('processed')
-                    #delete_files_in_directory('outputs')
-                    #delete_files_in_directory('cleaned')
-                    #os.remove('recorded_audio.wav')
+                    delete_files_in_directory('voices')
+                    delete_files_in_directory('processed')
+                    delete_files_in_directory('outputs')
+                    delete_files_in_directory('cleaned')
+                    os.remove('recorded_audio.wav')
                     print("Cleanup done")
                     flag = "Done"
                 if flag == "Done":
